@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Freestyler Maxx Tools</title>
+
+<!-- Premium fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg1:#00060a;
+  --glass: rgba(255,255,255,0.06);
+  --accent1: #00eaff;
+  --accent2: #ff4df8;
+  --muted: rgba(255,255,255,0.6);
+  --card-border: rgba(0,255,255,0.18);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(0,40,60,0.22), transparent 10%),
+    radial-gradient(900px 500px at 90% 90%, rgba(120,0,120,0.14), transparent 10%),
+    var(--bg1);
+  color:#fff;
+  -webkit-font-smoothing:antialiased;
+  padding:22px;
+  min-height:100vh;
+}
+
+/* Header / Logo */
+.header{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+.logo{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.logo svg{filter:drop-shadow(0 6px 18px rgba(0,0,0,0.6));}
+.title{
+  font-weight:700;
+  font-size:20px;
+  color:var(--accent1);
+  letter-spacing:0.4px;
+  text-shadow:0 0 12px rgba(0,234,255,0.12);
+}
+.tag{
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* Grid for 5 cards */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap:16px;
+  margin-bottom:20px;
+}
+.card{
+  background:var(--glass);
+  border-radius:14px;
+  padding:18px;
+  border:1px solid var(--card-border);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  transition: transform .22s ease, box-shadow .22s ease;
+  cursor:pointer;
+}
+.card:hover{ transform: translateY(-6px); box-shadow: 0 18px 50px rgba(0,0,0,0.7); }
+.card h3{ margin:0 0 6px 0; color:var(--accent2); font-size:16px; }
+.card p{ margin:0; color:var(--muted); font-size:13px; }
+
+/* Main tool area (collapsible) */
+.tools{
+  margin-top:18px;
+  max-width:1100px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.panel{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px;
+  padding:18px;
+  border:1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  margin-bottom:16px;
+  overflow:hidden;
+}
+
+/* Inputs & buttons */
+.input, select, .big-input{
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:none;
+  background: rgba(255,255,255,0.04);
+  color:#fff;
+  font-size:15px;
+  outline:none;
+}
+.controls{ display:flex; gap:10px; margin-top:12px; }
+.controls button{
+  flex:1;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  background: linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#000;
+  font-weight:700;
+  cursor:pointer;
+  transition:transform .15s;
+}
+.controls button:hover{ transform:scale(1.03); }
+
+/* results list */
+.results{
+  margin-top:12px;
+  display:grid;
+  gap:8px;
+  max-height:420px;
+  overflow:auto;
+  padding-right:6px;
+}
+.result-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background: rgba(0,0,0,0.28);
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.03);
+  font-size:15px;
+}
+.copy-btn{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.06);
+  color:var(--accent1);
+  padding:8px 10px; border-radius:8px; cursor:pointer; font-weight:600;
+}
+
+/* small controls */
+.row { display:flex; gap:8px; align-items:center; }
+.small { font-size:13px; color:var(--muted); }
+
+/* premium sensitivity card */
+.sensi-card{
+  margin-top:12px;
+  padding:14px;
+  border-radius:12px;
+  background: linear-gradient(135deg, rgba(0,234,255,0.06), rgba(255,77,248,0.03));
+  border:1px solid rgba(0,234,255,0.12);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+}
+.sensi-value{
+  font-size:36px;
+  color:var(--accent1);
+  font-weight:800;
+  text-shadow:0 0 20px rgba(0,234,255,0.11);
+}
+
+/* footer social */
+.footer{
+  margin-top:20px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:center;
+}
+.social{
+  padding:10px 14px;
+  border-radius:10px;
+  background: linear-gradient(90deg, rgba(0,234,255,0.06), rgba(255,77,248,0.04));
+  border:1px solid rgba(255,255,255,0.03);
+  color:var(--accent1);
+  text-decoration:none;
+  font-weight:700;
+}
+
+/* responsive tweaks */
+@media (max-width:720px){
+  .grid{ grid-template-columns: 1fr 1fr; }
+  .header{ flex-direction:column; align-items:flex-start; gap:8px; }
+}
+@media (max-width:420px){
+  .grid{ grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <!-- Inline SVG logo -->
+    <svg width="46" height="46" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="48" height="48" rx="10" fill="url(#g)"/>
+      <path d="M14 34L24 14L34 34H14Z" fill="white" opacity="0.9"/>
+      <defs>
+        <linearGradient id="g" x1="0" x2="48" y1="0" y2="48" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#00eaff"/>
+          <stop offset="1" stop-color="#ff4df8"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div>
+      <div class="title">Freestyler Maxx Tools</div>
+      <div class="tag">Free Fire names • guilds • sensitivity</div>
+    </div>
+  </div>
+
+  <div class="tag small">Pro-style tools — free • mobile-ready</div>
+</div>
+
+<!-- 5 option cards -->
+<div class="grid" id="homeGrid">
+  <div class="card" data-action="open" data-target="freestylePlayer">
+    <h3>1. Freestyle name generator</h3>
+    <p>Tap to open large list + generator for player names.</p>
+  </div>
+
+  <div class="card" data-action="open" data-target="freestyleGuild">
+    <h3>2. Freestyle guild name generator</h3>
+    <p>Ready guild names and generator for creative tags.</p>
+  </div>
+
+  <div class="card" data-action="open" data-target="coolGenerator">
+    <h3>3. Cool stylish name generator</h3>
+    <p>Type your name and get unlimited styled versions + copy.</p>
+  </div>
+
+  <div class="card" data-action="open" data-target="sensitivityTool">
+    <h3>4. Device sensitivity</h3>
+    <p>Enter device & RAM — get recommended sensitivity (premium card).</p>
+  </div>
+
+  <div class="card" data-action="open" data-target="socials">
+    <h3>5. Socials</h3>
+    <p>Your YouTube & Telegram links.</p>
+  </div>
+</div>
+
+<!-- Tools area -->
+<div class="tools">
+
+  <!-- Freestyle Player names -->
+  <div class="panel" id="freestylePlayer" style="display:none;">
+    <h2>Freestyle Player Names</h2>
+    <div class="small">Swipe or scroll — tap Copy to use in-game. You can also generate infinite using prefixes/suffixes.</div>
+
+    <div style="margin-top:12px" class="row">
+      <input id="playerFilter" class="input" placeholder="Filter names (optional) — type 'maxx' to see matches">
+      <button onclick="shufflePlayers()" style="max-width:140px">Shuffle</button>
+    </div>
+
+    <div class="results" id="playerResults"></div>
+  </div>
+
+  <!-- Freestyle Guild names -->
+  <div class="panel" id="freestyleGuild" style="display:none;">
+    <h2>Freestyle Guild Names</h2>
+    <div class="small">Large list + quick generator. Tap Copy to take a name.</div>
+
+    <div style="margin-top:12px" class="row">
+      <input id="guildFilter" class="input" placeholder="Filter guilds (optional)">
+      <button onclick="shuffleGuilds()" style="max-width:140px">Shuffle</button>
+    </div>
+
+    <div class="results" id="guildResults"></div>
+  </div>
+
+  <!-- Cool stylish generator -->
+  <div class="panel" id="coolGenerator" style="display:none;">
+    <h2>Cool Stylish Name Generator</h2>
+    <div class="small">Type your name and see unlimited styled versions. Toggle emojis or uppercase variants.</div>
+
+    <div style="margin-top:12px" class="row">
+      <input id="coolInput" class="input" placeholder="Type your name e.g. maxx">
+    </div>
+    <div style="margin-top:10px" class="row">
+      <label class="small" style="flex:1"><input id="useEmoji" type="checkbox" checked> Include emojis</label>
+      <label class="small" style="flex:1"><input id="useUpper" type="checkbox"> Uppercase variants</label>
+    </div>
+
+    <div class="controls" style="margin-top:10px">
+      <button onclick="generateCoolStyles()">Generate Styles</button>
+      <button onclick="generateManyStyles()" style="background:linear-gradient(90deg,#ff4df8,#00eaff)">Mass Generate</button>
+    </div>
+
+    <div class="results" id="coolResults" style="max-height:460px"></div>
+  </div>
+
+  <!-- Sensitivity tool -->
+  <div class="panel" id="sensitivityTool" style="display:none;">
+    <h2>Device Sensitivity Finder</h2>
+    <div class="small">Enter your phone and RAM to get the recommended sensitivity.</div>
+
+    <div style="margin-top:12px">
+      <input id="deviceName" class="input" placeholder="Device model (e.g. Poco X3)">
+      <select id="ramSelect" class="input" style="margin-top:8px">
+        <option value="">Select RAM</option>
+        <option value="2">2 GB</option>
+        <option value="3">3 GB</option>
+        <option value="4">4 GB</option>
+        <option value="6">6 GB</option>
+        <option value="8">8 GB</option>
+        <option value="12">12 GB</option>
+      </select>
+      <div class="controls" style="margin-top:8px">
+        <button onclick="calcSensitivity()">Find Sensitivity</button>
+        <button onclick="copySensitivity()" style="background:linear-gradient(90deg,#ff4df8,#00eaff)">Copy Result</button>
+      </div>
+    </div>
+
+    <div id="sensiOutput" style="margin-top:14px"></div>
+  </div>
+
+  <!-- Socials -->
+  <div class="panel" id="socials" style="display:none;">
+    <h2>Follow Freestyler Maxx</h2>
+    <div class="small">Join the channel & group for updates, drops and tips.</div>
+
+    <div style="margin-top:12px" class="row">
+      <a class="social" href="https://youtube.com/@i.mendless?si=XwlT4WcDU1EKHg8R" target="_blank">YouTube Channel</a>
+      <a class="social" href="https://t.me/withspawnix" target="_blank">Telegram Group</a>
+    </div>
+
+    <div style="margin-top:12px" class="small">Share your name suggestions — I may add the best ones live on site.</div>
+  </div>
+
+</div>
+
+<script>
+/* ---------- Helper utilities ---------- */
+function $(id){return document.getElementById(id)}
+function createResultNode(text){
+  const d = document.createElement('div');
+  d.className='result-item';
+  const span = document.createElement('div');
+  span.textContent = text;
+  const btn = document.createElement('button');
+  btn.className='copy-btn';
+  btn.innerText='Copy';
+  btn.onclick = ()=>{ navigator.clipboard.writeText(text); btn.innerText='Copied'; setTimeout(()=>btn.innerText='Copy',900); };
+  d.appendChild(span); d.appendChild(btn);
+  return d;
+}
+
+/* ---------- Panel open/close logic ---------- */
+document.querySelectorAll('.card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const target = card.dataset.target;
+    openPanel(target);
+    window.scrollTo({top:document.querySelector('.tools').offsetTop-12, behavior:'smooth'});
+  });
+});
+function openPanel(name){
+  document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
+  const el = $(name);
+  if(el) el.style.display='block';
+}
+
+/* ---------- Player name list (pre-made + generator) ---------- */
+/* Pre-made sample list (you can expand or I can add more) */
+const basePlayers = [
+  "Maxx", "RusherMaxx", "MaxxKing", "MaxxPro", "MaxxVibe", "MaxxGOD", "MaxxOneTap", "XMaxx", "MaxxXero",
+  "MaxxBlade", "MaxxSniper", "MaxxAce", "MaxxLegend", "MrMaxx", "FreestyleMaxx", "MaxxFury", "MaxxRage",
+  "MaxxStorm","MaxxShadow","MaxxPhantom","MaxxNova","MaxxVenom","MaxxGhost","MaxxShield","MaxxDrift",
+  "MaxxBullet","MaxxStrike","MaxxTorque","MaxxZero","MaxxForce","MaxxFlame","MaxxVortex","MaxxAlpha",
+  "MaxxOmega","MaxxClutch","MaxxRush","MaxxSpark","MaxxSpike","MaxxPrime","MaxxSwift","MaxxOnyx",
+  "MaxxTitan","MaxxHunter","MaxxSnare","MaxxPulse","MaxxCruiser","MaxxCipher","MaxxFrost","MaxxDagger",
+  "MaxxBlitz","MaxxWarp","MaxxRift","MaxxEcho"
+];
+// We'll display many by combining with suffixes/prefixes for infinite feel
+const playerPrefixes = ["FR•","•FR•","✦","✪","★","꧁","᭄","＂","═","╚","•"];
+const playerSuffixes = ["X","OP","Pro","GOD","69","YT","GG","ツ","☆","™","_","Clan"];
+
+/* Build initial player results */
+function buildPlayerResults(filter=''){
+  const container = $('playerResults');
+  container.innerHTML='';
+  // show pre-made first
+  const showList = [];
+  basePlayers.forEach(n=> showList.push(n));
+  // add generated combos (to reach ~200 names)
+  for(let p=0; p<playerPrefixes.length; p++){
+    for(let s=0; s<playerSuffixes.length; s++){
+      for(let i=0;i<3;i++){
+        const base = basePlayers[(p*3 + s + i) % basePlayers.length];
+        showList.push(playerPrefixes[p] + base + playerSuffixes[s]);
+      }
+    }
+  }
+  // filter & render first 200 matches
+  const filtered = filter ? showList.filter(x=> x.toLowerCase().includes(filter.toLowerCase())) : showList;
+  filtered.slice(0,300).forEach(name => container.appendChild(createResultNode(name)));
+}
+
+/* Shuffle action */
+function shufflePlayers(){
+  const f = $('playerFilter').value.trim();
+  buildPlayerResults(f);
+}
+
+/* live filter */
+$('playerFilter').addEventListener && $('playerFilter').addEventListener('input', (e)=>{
+  buildPlayerResults(e.target.value);
+});
+
+/* ---------- Guild name list ---------- */
+const guildBases = ["Shadow","Rage","Death","OneTap","Silent","Kings","Royal","Apex","Night","Storm","Viper","Titan","Elite","Ghost","Phantom","Legion","Force","Dragons","Reckoning","Fury","Alpha"];
+const guildSuffix = ["Squad","Crew","Empire","Unit","Army","Legends","Clan","Order","Collective","Brothers","Guild","Force"];
+function buildGuildResults(filter=''){
+  const container = $('guildResults');
+  container.innerHTML='';
+  const list = [];
+  guildBases.forEach(b=>{
+    guildSuffix.forEach(s=> list.push(b + " " + s));
+  });
+  // add some combos with numbers & icons
+  guildBases.forEach(b=>{
+    list.push("★ "+b+" ★");
+    list.push("✦"+b+"✦");
+    list.push(b + " X");
+    list.push(b + " 69");
+    list.push("The " + b);
+  });
+  const filtered = filter ? list.filter(x=> x.toLowerCase().includes(filter.toLowerCase())) : list;
+  filtered.slice(0,300).forEach(name => container.appendChild(createResultNode(name)));
+}
+function shuffleGuilds(){ buildGuildResults($('guildFilter').value.trim()); }
+$('guildFilter').addEventListener && $('guildFilter').addEventListener('input', (e)=> buildGuildResults(e.target.value));
+
+/* ---------- Cool stylish generator (many style functions) ---------- */
+const styleFns = [
+  n=> "★ "+n+" ★",
+  n=> "✦"+n+"✦",
+  n=> "꧁༒"+n+"༒꧂",
+  n=> "『"+n+"』",
+  n=> "✪ "+n+" ✪",
+  n=> "✶"+n+"✶",
+  n=> "• "+n+" •",
+  n=> "【"+n+"】",
+  n=> n.toUpperCase(),
+  n=> n.toLowerCase(),
+  n=> n.split('').join(' '),
+  n=> "»"+n+"«",
+  n=> n.replace(/a/gi,'@'),
+  n=> n.replace(/s/gi,'$'),
+  n=> "⟪"+n+"⟫",
+  n=> "✯"+n+"✯",
+  n=> "༒ "+n+" ༒",
+  n=> "✺"+n+"✺",
+  n=> "☬"+n+"☬",
+  n=> "⚡"+n+"⚡"
+];
+const emojiList = ["🔥","💥","⚡","✨","💀","😎","🌪️","⭐","🌟","🔱","⚔️","🛡️"];
+
+function generateCoolStyles(){
+  const name = $('coolInput').value.trim();
+  if(!name){ $('coolResults').innerHTML = '<div class="small">Enter a name to generate styles.</div>'; return; }
+  const useEmoji = $('useEmoji').checked;
+  const useUpper = $('useUpper').checked;
+  const container = $('coolResults'); container.innerHTML='';
+  // base styles
+  styleFns.forEach(fn=>{
+    let val = fn(name);
+    if(useUpper && typeof val === 'string') val = val.toUpperCase();
+    if(useEmoji){
+      // random emoji around
+      const e = emojiList[Math.floor(Math.random()*emojiList.length)];
+      val = e + " " + val + " " + e;
+    }
+    container.appendChild(createResultNode(val));
+  });
+  // also create many combos by prefix/suffix and Unicode letters
+  const fancyChars = ["᭄","ᚖ","〘","〙","╰","╯","ツ","✦","✪","✧"];
+  for(let i=0;i<50;i++){
+    const pre = fancyChars[i % fancyChars.length];
+    const suf = fancyChars[(i+3) % fancyChars.length];
+    let v = pre + name + suf;
+    if(useEmoji) v = (emojiList[i % emojiList.length]) + " " + v;
+    container.appendChild(createResultNode(v));
+  }
+}
+
+/* mass generate (larger) */
+function generateManyStyles(){ const prev = $('coolInput').value.trim(); if(!prev){ $('coolResults').innerHTML='<div class="small">Enter name first.</div>'; return;} $('coolResults').innerHTML=''; for(let i=0;i<400;i++){ const s = prev + (i%50===0? '✦': '') + (i%7) + (i%11===0?'★':''); $('coolResults').appendChild(createResultNode(s)); } }
+
+/* ---------- Sensitivity logic ---------- */
+const sensiMap = {2:200,3:200,4:186,6:154,8:134,12:123};
+let lastSensitivity = null;
+function calcSensitivity(){
+  const dev = $('deviceName').value.trim();
+  const ram = parseInt($('ramSelect').value);
+  const out = $('sensiOutput');
+  if(!dev || !ram || !sensiMap[ram]){ out.innerHTML = '<div class="small">Please enter device name and select a supported RAM option.</div>'; return; }
+  const val = sensiMap[ram];
+  lastSensitivity = {dev,ram,val};
+  out.innerHTML = `
+    <div class="sensi-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="small">Device</div>
+          <div style="font-weight:700">${dev}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="small">RAM</div>
+          <div style="font-weight:700">${ram} GB</div>
+        </div>
+      </div>
+
+      <hr style="border:none;height:8px;background:transparent;margin:10px 0" />
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="small">Recommended (all core scopes)</div>
+          <div class="sensi-value">${val}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="small">Use for</div>
+          <div style="font-weight:700">General | Red Dot | 2x | 4x | AWM</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+/* copy sensitivity result */
+function copySensitivity(){
+  if(!lastSensitivity){ alert('Generate sensitivity first'); return; }
+  const t = `${lastSensitivity.dev} (${lastSensitivity.ram}GB) Sensitivity: ${lastSensitivity.val}`;
+  navigator.clipboard.writeText(t).then(()=> alert('Copied: ' + t));
+}
+
+/* ---------- init on page load ---------- */
+window.addEventListener('load', ()=>{
+  buildPlayerResults();
+  buildGuildResults();
+  // open default panel? none - keep home grid visible
+});
+
+/* optional: open a panel by hash in URL (e.g. #sensitivityTool) */
+const hash = location.hash.replace('#','');
+if(hash){
+  setTimeout(()=>{ openPanel(hash); }, 250);
+}
+</script>
+
+</body>
+  </html>
